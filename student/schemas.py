@@ -1,3 +1,4 @@
+from typing import List,Optional
 from pydantic import BaseModel
 
 
@@ -21,3 +22,30 @@ class ShowStudent(BaseModel):
 
     class Config():
         orm_mode=True  
+class ps(BaseModel):
+    password:str
+    conform_password:str
+    class Config():
+        orm_mode=True  
+class Login(BaseModel):
+    username:str
+    password:str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str]=None  
+
+
+class StudentBase(BaseModel):
+    password:str
+    conform_password:str
+
+class Blog(StudentBase):
+    class Config():
+        orm_mode=True    
+

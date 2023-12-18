@@ -1,7 +1,15 @@
-from sqlalchemy import Column,Integer,String
+from sqlalchemy import Column,Integer,String,ForeignKey
 from .database import Base
+from sqlalchemy.orm import relationship
 
 
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True)
+    token = Column(String)  
+    # creator=relationship("Student",back_populates="std")
 class Student(Base):
     __tablename__='student'
     id=Column(Integer,primary_key=True,index=True)
@@ -13,3 +21,5 @@ class Student(Base):
     email=Column(String)
     password=Column(String)
     conform_password=Column(String)
+    # std=relationship('PasswordResetToken',back_populates="creator")
+
