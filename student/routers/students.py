@@ -15,7 +15,7 @@ def Get_user(db:Session=Depends(database.get_db),current_user:schemas.Student=De
    return students.getall(db)
 
 @router.get('/{id}',response_model=schemas.ShowStudent)
-def single_user(id:int,db:Session=Depends(database.get_db)):
+def single_user(id:int,db:Session=Depends(database.get_db),current_user:schemas.Student=Depends(oauth2.get_current_user)):
     return students.getstd(id,db)
 
 

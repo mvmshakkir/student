@@ -7,8 +7,14 @@ class PasswordResetToken(Base):
     __tablename__ = "password_reset_tokens"
 
     id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, index=True)
-    token = Column(String)  
+    email = Column(String)
+    token = Column(String,unique=True)
+class PasswordResetTokenn(Base):
+    __tablename__ = "password_resett_tokens"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String)
+    token = Column(String,unique=True,)    
     # creator=relationship("Student",back_populates="std")
 class Student(Base):
     __tablename__='student'

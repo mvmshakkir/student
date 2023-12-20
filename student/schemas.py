@@ -32,14 +32,6 @@ class Login(BaseModel):
     password:str
 
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-
-class TokenData(BaseModel):
-    email: Optional[str]=None  
-
 
 class StudentBase(BaseModel):
     password:str
@@ -49,3 +41,11 @@ class Blog(StudentBase):
     class Config():
         orm_mode=True    
 
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Optional[str]=None  

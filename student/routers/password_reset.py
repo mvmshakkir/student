@@ -18,7 +18,7 @@ def password_reset(email:EmailStr,db: Session=Depends(database.get_db)):
     if not student:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"Invalid Credential")
     access_token = token.create_access_token(data={"sub": student.email})
-    reset_token = models.PasswordResetToken(email=email, token=access_token)
+    reset_token = models.PasswordResetTokenn(email=email, token=access_token)
     db.add(reset_token)
     db.commit()
     db.refresh(reset_token)
@@ -28,7 +28,7 @@ def password_reset(email:EmailStr,db: Session=Depends(database.get_db)):
 
 @router.put('/', status_code=status.HTTP_202_ACCEPTED )
 def update(token:str,email:str,request:schemas.ps,db: Session=Depends(database.get_db)):
-    up=db.query(models.PasswordResetToken).filter(models.PasswordResetToken.token==token).first()
+    up=db.query(models.PasswordResetTokenn).filter(models.PasswordResetTokenn.token==token).first()
     st=db.query(models.Student).filter(models.Student.email==email).first()
     if not up:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"user with the token is not available")
@@ -51,3 +51,4 @@ def update(token:str,email:str,request:schemas.ps,db: Session=Depends(database.g
         return {"message": "Password updated successfully"}
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
+    

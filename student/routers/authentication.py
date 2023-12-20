@@ -8,7 +8,7 @@ router=APIRouter(
     
     tags=['Authentication']
 )
-@router.post('/')
+@router.post('/login')
 def login(request:OAuth2PasswordRequestForm=Depends(),db: Session=Depends(database.get_db)):
    
     student=db.query(models.Student).filter(models.Student.email==request.username).first()
