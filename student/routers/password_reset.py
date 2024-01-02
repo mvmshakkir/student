@@ -2,9 +2,10 @@ from fastapi import APIRouter,Depends,status,HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from ..import schemas,database,models,token
 from sqlalchemy.orm import Session
-from ..hashing import Hash
+# from .hashing import Hash
 from pydantic import EmailStr
-
+import smtplib
+from email.message import EmailMessage
 router=APIRouter(
     
     prefix="/password_reset",
@@ -12,7 +13,7 @@ router=APIRouter(
 )
 
 @router.post('/')
-def password_reset(email:EmailStr,db: Session=Depends(database.get_db)):
+def password_reset(email:str,db: Session=Depends(database.get_db)):
    
     student=db.query(models.Student).filter(models.Student.email==email).first()
     if not student:
@@ -26,7 +27,7 @@ def password_reset(email:EmailStr,db: Session=Depends(database.get_db)):
 
 
 
-@router.put('/', status_code=status.HTTP_202_ACCEPTED )
+@router.put('/up', status_code=status.HTTP_202_ACCEPTED )
 def update(token:str,email:str,request:schemas.ps,db: Session=Depends(database.get_db)):
     up=db.query(models.PasswordResetTokenn).filter(models.PasswordResetTokenn.token==token).first()
     st=db.query(models.Student).filter(models.Student.email==email).first()

@@ -1,0 +1,80 @@
+
+    <html>
+        <head>
+            <link rel="stylesheet" href="/static/lg.css">
+        </head>
+    
+   
+    <div class="background-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+    <img src="/static/school.jpg" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.5;" />
+</div>
+<div class="form_wrapper">
+  <div class="form_container">
+    <div class="title_container">
+      <h2>Login</h2>
+    </div>
+    <div class="row clearfix">
+      <div class="">
+        <form id="loginForm" action="/login" method="post">
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+            <label for="">User name</label>
+            <input type="text" name="username" id="username" placeholder="Username" required>
+          </div>
+          <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+            <label>password</label>
+            <input type="password" name="password" placeholder="Password" required />
+          </div>
+          <div>
+            <input class="button-success" type="submit" value="Login" style="background-color: rgb(54, 218, 125);height: 35px;"/>
+          </div>
+          <a href="/reset">Forget password?</a> or <a href="/register">Sign up</a>
+          </div>
+            	
+    
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <p class="credit">Developed by <a href="http://www.designtheway.com" target="_blank">Design the way</a></p> -->
+</body>
+</html>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(loginForm);
+
+        fetch('/login', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // If login is successful, parse JSON response
+                return response.json();
+            } else {
+                throw new Error('Login failed');
+            }
+        })
+        .then(data => {
+            // Handle JSON response with access_token and token_type
+            const { access_token, token_type ,student_id} = data;
+            
+            // Store tokens in localStorage
+            localStorage.setItem('access_token', access_token);
+            localStorage.setItem('token_type', token_type);
+            localStorage.setItem('student_id', student_id);
+            
+            // Redirect to the home page
+            window.location.href = '/home';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle login failure here (e.g., display an error message)
+        });
+    });
+});
+
+</script>
